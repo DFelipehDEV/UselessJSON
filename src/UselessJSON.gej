@@ -147,6 +147,18 @@
 					"returntype": 1
 				},
 				{
+					"name": "json_get_nested_keys",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_get_nested_keys(handle, path)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 1
+				},
+				{
 					"name": "json_dotget_number",
 					"extname": "",
 					"calltype": 12,

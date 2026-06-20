@@ -154,6 +154,27 @@ GMSTRING json_get_keys(double handle) {
     return const_cast<char*>(result_buffer.c_str());
 }
 
+void flattenKeys(Value& val, const std::string& prefix, std::string& out) {
+    if (val.IsObject()) {
+        for (auto& m : val.GetObject()) {
+            std::string new_prefix = prefix.empty() ? m.name.GetString() : prefix + "." + m.name.GetString();
+            flattenKeys(m.value, new_prefix, out);
+        }
+    } else {
+        if (!out.empty()) out += ",";
+        out += prefix;
+    }
+}
+
+GMSTRING json_get_nested_keys(double handle, const char* path) {
+    Value* val = getDotPath(getJsonObject(handle), path);
+    if (!val || !val->IsObject()) return const_cast<char*>("");
+    
+    result_buffer = "";
+    flattenKeys(*val, "", result_buffer);
+    return const_cast<char*>(result_buffer.c_str());
+}
+
 GMREAL json_is_array(double handle, const char* key) {
     Value* val = getMemberValue(handle, key);
     return (val && val->IsArray()) ? 1.0 : 0.0;
