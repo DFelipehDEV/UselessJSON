@@ -1,0 +1,247 @@
+{
+	"name": "Useless JSON",
+	"folder": "",
+	"version": "0.1",
+	"author": "DFelipehDEV",
+	"date": "23/02/2026",
+	"license": "MIT",
+	"description": "JSON parsing",
+	"helpfile": "",
+	"hidden": false,
+	"dependencies": [],
+	"files": [
+		{
+			"filename": "UselessJSON.dll",
+			"origname": "UselessJSON.dll",
+			"kind": 1,
+			"init": "",
+			"final": "",
+			"functions": [
+				{
+					"name": "json_load_file",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_load_file(filepath)",
+					"hidden": false,
+					"argtypes": [
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_parse",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_parse(json_string)",
+					"hidden": false,
+					"argtypes": [
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_stringify",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_stringify(handle)",
+					"hidden": false,
+					"argtypes": [
+						2
+					],
+					"returntype": 1
+				},
+				{
+					"name": "json_get_number",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_get_number(handle, key)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_get_string",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_get_string(handle, key)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 1
+				},
+				{
+					"name": "json_set_number",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_set_number(handle, key, value)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1,
+						2
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_set_string",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_set_string(handle, key, value)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1,
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_has_key",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_has_key(handle, key)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_delete",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_delete(handle)",
+					"hidden": false,
+					"argtypes": [
+						2
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_get_keys",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_get_keys(handle)",
+					"hidden": false,
+					"argtypes": [
+						2
+					],
+					"returntype": 1
+				},
+				{
+					"name": "json_dotget_string",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_dotget_string(handle, path)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 1
+				},
+				{
+					"name": "json_dotget_number",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_dotget_number(handle, path)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_is_array",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_is_array(handle, key)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_array_length",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_array_length(handle, key)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_array_get_string",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_array_get_string(handle, key, index)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1,
+						2
+					],
+					"returntype": 1
+				},
+				{
+					"name": "json_array_get_number",
+					"extname": "",
+					"calltype": 12,
+					"helpline": "json_array_get_number(handle, key, index)",
+					"hidden": false,
+					"argtypes": [
+						2,
+						1,
+						2
+					],
+					"returntype": 2
+				}
+			],
+			"constants": []
+		},
+		{
+			"filename": "api.gml",
+			"origname": "api.gml",
+			"kind": 2,
+			"init": "",
+			"final": "",
+			"functions": [
+				{
+					"name": "json_decode",
+					"extname": "",
+					"calltype": 2,
+					"helpline": "json_decode(string)",
+					"hidden": false,
+					"argtypes": [
+						1
+					],
+					"returntype": 2
+				},
+				{
+					"name": "json_decode_value",
+					"extname": "",
+					"calltype": 2,
+					"helpline": "json_decode_value(handle)",
+					"hidden": false,
+					"argtypes": [
+						2
+					],
+					"returntype": 2
+				}
+			],
+			"constants": []
+		}
+	]
+}
