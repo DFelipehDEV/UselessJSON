@@ -222,38 +222,6 @@
 				}
 			],
 			"constants": []
-		},
-		{
-			"filename": "api.gml",
-			"origname": "api.gml",
-			"kind": 2,
-			"init": "",
-			"final": "",
-			"functions": [
-				{
-					"name": "json_decode",
-					"extname": "",
-					"calltype": 2,
-					"helpline": "json_decode(string)",
-					"hidden": false,
-					"argtypes": [
-						1
-					],
-					"returntype": 2
-				},
-				{
-					"name": "json_decode_value",
-					"extname": "",
-					"calltype": 2,
-					"helpline": "json_decode_value(handle)",
-					"hidden": false,
-					"argtypes": [
-						2
-					],
-					"returntype": 2
-				}
-			],
-			"constants": []
 		}
 	]
 }

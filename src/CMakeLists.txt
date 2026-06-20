@@ -21,9 +21,6 @@ add_custom_command(TARGET UselessJSON POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
         "${CMAKE_CURRENT_SOURCE_DIR}/UselessJSON.gej"
         "${CMAKE_CURRENT_BINARY_DIR}/UselessJSON.gej"
-    COMMAND ${CMAKE_COMMAND} -E copy
-        "${CMAKE_CURRENT_SOURCE_DIR}/api.gml"
-        "${CMAKE_CURRENT_BINARY_DIR}/api.gml"
     COMMAND python "${CMAKE_SOURCE_DIR}/gm82gex.py" "UselessJSON.gej"
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     COMMENT "Created UselessJSON.gex at ${CMAKE_CURRENT_BINARY_DIR}"
