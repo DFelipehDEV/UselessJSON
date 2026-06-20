@@ -28,6 +28,12 @@ inline Value* getDotPath(Value* val, const char* path) {
     return Pointer(p.c_str()).Get(*val);
 }
 
+inline double registerDocument(Document* doc) {
+    if (doc->HasParseError()) { delete doc; return -1.0; }
+    json_objects[json_handle_counter] = doc;
+    return static_cast<double>(json_handle_counter++);
+}
+
 GMREAL json_load_file(const char* filepath) {
     FILE* fp = std::fopen(filepath, "rb");
     if (!fp) return -1.0;
@@ -39,26 +45,13 @@ GMREAL json_load_file(const char* filepath) {
     doc->ParseStream(is);
     std::fclose(fp);
     
-    if (doc->HasParseError()) {
-        delete doc;
-        return -1.0;
-    }
-    
-    json_objects[json_handle_counter] = doc;
-    return static_cast<double>(json_handle_counter++);
+    return registerDocument(doc);
 }
 
 GMREAL json_parse(const char* json_string) {
     Document* doc = new Document();
     doc->Parse(json_string);
-    
-    if (doc->HasParseError()) {
-        delete doc;
-        return -1.0;
-    }
-    
-    json_objects[json_handle_counter] = doc;
-    return static_cast<double>(json_handle_counter++);
+    return registerDocument(doc);
 }
 
 GMSTRING json_stringify(double handle) {
@@ -73,23 +66,21 @@ GMSTRING json_stringify(double handle) {
     return const_cast<char*>(result_buffer.c_str());
 }
 
-GMREAL json_get_number(double handle, const char* key) {
+inline Value* getMemberValue(double handle, const char* key) {
     Document* doc = getJsonObject(handle);
-    if (doc && doc->IsObject() && doc->HasMember(key)) {
-        auto& val = (*doc)[key];
-        if (val.IsNumber()) return val.GetDouble();
-    }
-    return 0.0;
+    return (doc && doc->IsObject() && doc->HasMember(key)) ? &(*doc)[key] : nullptr;
+}
+
+GMREAL json_get_number(double handle, const char* key) {
+    Value* val = getMemberValue(handle, key);
+    return (val && val->IsNumber()) ? val->GetDouble() : 0.0;
 }
 
 GMSTRING json_get_string(double handle, const char* key) {
-    Document* doc = getJsonObject(handle);
-    if (doc && doc->IsObject() && doc->HasMember(key)) {
-        auto& val = (*doc)[key];
-        if (val.IsString()) {
-            result_buffer = val.GetString();
-            return const_cast<char*>(result_buffer.c_str());
-        }
+    Value* val = getMemberValue(handle, key);
+    if (val && val->IsString()) {
+        result_buffer = val->GetString();
+        return const_cast<char*>(result_buffer.c_str());
     }
     return const_cast<char*>("");
 }
@@ -135,10 +126,7 @@ GMREAL json_delete(double handle) {
 }
 
 GMSTRING json_dotget_string(double handle, const char* path) {
-    Document* doc = getJsonObject(handle);
-    if (!doc) return const_cast<char*>("");
-    
-    Value* val = getDotPath(doc, path);
+    Value* val = getDotPath(getJsonObject(handle), path);
     if (val && val->IsString()) {
         result_buffer = val->GetString();
         return const_cast<char*>(result_buffer.c_str());
@@ -147,10 +135,7 @@ GMSTRING json_dotget_string(double handle, const char* path) {
 }
 
 GMREAL json_dotget_number(double handle, const char* path) {
-    Document* doc = getJsonObject(handle);
-    if (!doc) return 0.0;
-    
-    Value* val = getDotPath(doc, path);
+    Value* val = getDotPath(getJsonObject(handle), path);
     if (val && val->IsNumber()) {
         return val->GetDouble();
     }
@@ -170,47 +155,31 @@ GMSTRING json_get_keys(double handle) {
 }
 
 GMREAL json_is_array(double handle, const char* key) {
-    Document* doc = getJsonObject(handle);
-    if (doc && doc->IsObject() && doc->HasMember(key)) {
-        return (*doc)[key].IsArray() ? 1.0 : 0.0;
-    }
-    return 0.0;
+    Value* val = getMemberValue(handle, key);
+    return (val && val->IsArray()) ? 1.0 : 0.0;
 }
 
 GMREAL json_array_length(double handle, const char* key) {
-    Document* doc = getJsonObject(handle);
-    if (doc && doc->HasMember(key)) {
-        auto& val = (*doc)[key];
-        if (val.IsArray()) return static_cast<double>(val.Size());
-    }
-    return 0.0;
+    Value* val = getMemberValue(handle, key);
+    return (val && val->IsArray()) ? static_cast<double>(val->Size()) : 0.0;
+}
+
+inline Value* getArrayElement(double handle, const char* key, double index) {
+    Value* val = getMemberValue(handle, key);
+    int idx = static_cast<int>(index);
+    return (val && val->IsArray() && idx >= 0 && idx < static_cast<int>(val->Size())) ? &(*val)[idx] : nullptr;
 }
 
 GMSTRING json_array_get_string(double handle, const char* key, double index) {
-    Document* doc = getJsonObject(handle);
-    if (doc && doc->HasMember(key)) {
-        auto& arr = (*doc)[key];
-        if (arr.IsArray()) {
-            int idx = static_cast<int>(index);
-            if (idx >= 0 && idx < static_cast<int>(arr.Size()) && arr[idx].IsString()) {
-                result_buffer = arr[idx].GetString();
-                return const_cast<char*>(result_buffer.c_str());
-            }
-        }
+    Value* val = getArrayElement(handle, key, index);
+    if (val && val->IsString()) {
+        result_buffer = val->GetString();
+        return const_cast<char*>(result_buffer.c_str());
     }
     return const_cast<char*>("");
 }
 
 GMREAL json_array_get_number(double handle, const char* key, double index) {
-    Document* doc = getJsonObject(handle);
-    if (doc && doc->HasMember(key)) {
-        auto& arr = (*doc)[key];
-        if (arr.IsArray()) {
-            int idx = static_cast<int>(index);
-            if (idx >= 0 && idx < static_cast<int>(arr.Size()) && arr[idx].IsNumber()) {
-                return arr[idx].GetDouble();
-            }
-        }
-    }
-    return 0.0;
+    Value* val = getArrayElement(handle, key, index);
+    return (val && val->IsNumber()) ? val->GetDouble() : 0.0;
 }
