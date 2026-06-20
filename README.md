@@ -7,14 +7,17 @@ A simple JSON extension for GameMaker 8.2.
 
 ## Quick Start
 ```gml
-// Parse a JSON string into memory
-var json_str = '{"name": "Hero", "hp": 100}';
-var handle = json_parse(json_str);
+var _json_str, _handle;
+_json_str = '{"player": {"name": "Carlos", "hp": 100}}';
+_handle = json_parse(_json_str);
 
-// Access values directly using the handle
-var _name = json_get_string(handle, "name");
-var _hp = json_get_number(handle, "hp");
+// Access nested values directly using dot-paths
+var _name, _hp;
+_name = json_dotget_string(_handle, "player.name");
+_hp = json_dotget_number(_handle, "player.hp");
 
-// Clean up the parsed JSON handle from memory
-json_delete(handle);
+show_message("name: " + _name);
+show_message("hp: " + string(_hp));
+
+json_delete(_handle);
 ```
