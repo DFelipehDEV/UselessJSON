@@ -68,7 +68,8 @@ GMSTRING json_stringify(double handle) {
 
 inline Value* getMemberValue(double handle, const char* key) {
     Document* doc = getJsonObject(handle);
-    return (doc && doc->IsObject() && doc->HasMember(key)) ? &(*doc)[key] : nullptr;
+    if (doc->IsObject() && doc->HasMember(key)) return &(*doc)[key];
+    return getDotPath(doc, key);
 }
 
 GMREAL json_get_number(double handle, const char* key) {
