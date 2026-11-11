@@ -111,8 +111,7 @@ GMREAL json_set_string(double handle, const char* key, const char* value) {
 }
 
 GMREAL json_has_key(double handle, const char* key) {
-    Document* doc = getJsonObject(handle);
-    return (doc && doc->IsObject() && doc->HasMember(key)) ? 1.0 : 0.0;
+    return getMemberValue(handle, key) != nullptr ? 1.0 : 0.0;
 }
 
 GMREAL json_delete(double handle) {
