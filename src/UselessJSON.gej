@@ -1,9 +1,9 @@
 {
 	"name": "Useless JSON",
 	"folder": "",
-	"version": "0.1",
+	"version": "0.2",
 	"author": "DFelipehDEV",
-	"date": "23/02/2026",
+	"date": "13/11/2026",
 	"license": "MIT",
 	"description": "JSON parsing",
 	"helpfile": "",
